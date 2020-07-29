@@ -1,0 +1,166 @@
+<?xml version="1.0"?>
+<ruleset name="antdekn-pool-custom" xmlns="http://pmd.sourceforge.net/ruleset/2.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd"
+	 xsi:noNamespaceSchemaLocation="http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
+	<description>
+		Custom PMD rules for the Unigrid Antdekn Explorer project
+	</description>
+	<rule ref="rulesets/internal/all-java.xml">
+		<exclude name="AvoidCatchingGenericException" />
+		<exclude name="AvoidLiteralsInIfCondition" />
+		<exclude name="AvoidSynchronizedAtMethodLevel" />
+		<exclude name="AvoidUsingVolatile" />
+		<exclude name="AtLeastOneConstructor" />
+		<exclude name="BeanMembersShouldSerialize" />
+		<exclude name="CommentRequired" />
+		<exclude name="CommentSize" />
+		<exclude name="ImportFromSamePackage" />
+		<exclude name="ImmutableField" />
+		<exclude name="JUnitAssertionsShouldIncludeMessage" />
+		<exclude name="LawOfDemeter" />
+		<exclude name="LocalVariableCouldBeFinal" />
+		<exclude name="LongVariable" />
+		<exclude name="LoosePackageCoupling" />
+		<exclude name="MethodArgumentCouldBeFinal" />
+		<exclude name="MissingSerialVersionUID" />
+		<exclude name="OnlyOneReturn" />
+		<exclude name="ShortClassName" />
+		<exclude name="ShortVariable" />
+		<exclude name="SignatureDeclareThrowsException" />
+		<exclude name="SingularField" />
+		<exclude name="TestClassWithoutTestCases" />
+		<exclude name="UnusedPrivateField" />
+		<exclude name="UnusedPrivateMethod" />
+		<exclude name="UseConcurrentHashMap" />
+		<exclude name="UseUtilityClass" />
+		<exclude name="JUnitTestContainsTooManyAsserts" />
+	</rule>
+	<rule ref="rulesets/internal/all-java.xml/AvoidUsingVolatile">
+		<!-- Java Persistence -->
+		<properties>
+			<property name="violationSuppressXPath" value="//ClassOrInterfaceDeclaration[ends-with(@SimpleName,'_')]"/>
+		</properties>
+	</rule>
+	<rule ref="category/java/errorprone.xml/DataflowAnomalyAnalysis">
+		<properties>
+			<property name="violationSuppressRegex" value="^Found 'UR'-anomaly.*"/>
+			<property name="violationSuppressRegex" value="^Found 'DU'-anomaly.*"/>
+		</properties>
+	</rule>
+	<rule ref="rulesets/internal/all-java.xml/ImportFromSamePackage">
+		<!-- Java Persistence -->
+		<properties>
+			<property name="violationSuppressXPath" value="//ClassOrInterfaceDeclaration[ends-with(@SimpleName,'_')]"/>
+		</properties>
+	</rule>
+	<rule ref="rulesets/internal/all-java.xml/ImmutableField">
+		<!-- Project Lombok -->
+		<properties>
+			<property name="violationSuppressXPath" value="../../..[Annotation//Name[@Image='Setter']]"/>
+		</properties>
+	</rule>
+	<rule ref="rulesets/internal/all-java.xml/LocalVariableCouldBeFinal">
+		<properties>
+			<property name="violationSuppressXPath" value="../../ForStatement"/>
+		</properties>
+	</rule>
+	<rule ref="rulesets/internal/all-java.xml/SignatureDeclareThrowsException">
+		<!-- JUnit tests -->
+		<properties>
+			<property name="violationSuppressXPath" value="../../..[Annotation//Name[@Image='Test']]"/>
+		</properties>
+	</rule>
+	<rule ref="rulesets/internal/all-java.xml/SingularField">
+		<!-- Project Lombok -->
+		<properties>
+			<property name="violationSuppressXPath" value="..[Annotation//Name[@Image='Getter']]" />
+		</properties>
+	</rule>
+	<rule ref="rulesets/internal/all-java.xml/TestClassWithoutTestCases">
+		<!-- Support for extending test classes -->
+		<properties>
+			<property name="violationSuppressXPath" value="//Annotation//Name[@Image='Test']"/>
+		</properties>
+	</rule>
+	<rule ref="rulesets/internal/all-java.xml/UnusedPrivateField">
+		<!-- Project Lombok -->
+		<properties>
+			<property name="violationSuppressXPath" value="../../..[Annotation//Name[(@Image='Getter') or (@Image='Setter') or (@Image='Drone')]]" />
+		</properties>
+	</rule>
+	<rule ref="rulesets/internal/all-java.xml/UnusedPrivateMethod">
+		<!-- CDI observer -->
+		<properties>
+			<property name="violationSuppressXPath" value="../..[Annotation//Name[@Image='PostConstruct']] or //MethodDeclaration//MarkerAnnotation/Name[@Image='Observes']"/>
+		</properties>
+	</rule>
+	<rule ref="rulesets/internal/all-java.xml/UseUtilityClass">
+		<!-- Project Lombok -->
+		<properties>
+			<property name="violationSuppressXPath" value="((../..[Annotation//Name[(@Image='NoArgsConstructor') or (@Image='RequiredArgsConstructor') or (@Image='AllArgsConstructor')]]) and //PrimaryPrefix//Name[@Image='AccessLevel.PRIVATE']) or //PrimaryPrefix//Name[@Image='AccessLevel.PUBLIC'] or //Annotation//Name[(@Image='Getter') or (@Image='Setter')]" />
+		</properties>
+	</rule>
+	<rule ref="category/java/codestyle.xml/ClassNamingConventions">
+		<properties>
+			<property name="utilityClassPattern" value="[A-Z][a-zA-Z0-9]+(Utils?|Helper|Support|Archive)" />
+		</properties>
+	</rule>
+	<rule ref="category/java/codestyle.xml/MethodNamingConventions">
+		<properties>
+			<property name="violationSuppressXPath" value="../../../..[Annotation//Name[@Image='Repository']]"/>
+		</properties>
+	</rule>
+	<rule ref="category/java/codestyle.xml/AvoidDollarSigns">
+		<properties>
+			<property name="violationSuppressXPath" value="../../../../../..[Annotation//Name[@Image='Repository']]"/>
+		</properties>
+	</rule>
+	<rule ref="category/java/codestyle.xml/FieldNamingConventions">
+		<properties>
+			<property name="violationSuppressXPath" value="../../../../../..[Annotation//Name[@Image='Repository']]"/>
+		</properties>
+	</rule>
+	<rule ref="category/java/design.xml/AbstractClassWithoutAnyMethod">
+		<properties>
+			<property name="violationSuppressXPath" value="..[Annotation//Name[@Image='Repository']]"/>
+		</properties>
+	</rule>
+	<rule ref="category/java/codestyle.xml/TooManyStaticImports">
+		<properties>
+			<property name="violationSuppressXPath" value="//ClassOrInterfaceDeclaration[ends-with(@SimpleName,'Test')]"/>
+		</properties>
+	</rule>
+	<rule ref="rulesets/internal/all-java.xml/JUnitTestsShouldIncludeAssert">
+		<properties>
+			<property name="violationSuppressXPath" value=".//PrimarySuffix[@Image='check'] or ../..[Annotation//Name[@Image='Ignore']]"/>
+		</properties>
+	</rule>
+	<rule name="JUnitIgnoreOnSameLineAsTest" language="java" class="net.sourceforge.pmd.lang.rule.XPathRule"
+	      message="For clarity and to follow the same style, the @Ignore annotation should be on the same line as @Test.">
+		<description />
+		<priority>1</priority>
+		<properties>
+			<property name="xpath">
+				<value>
+					<![CDATA[
+						//Annotation//Name[@Image="Ignore" and @BeginLine != ../../../Annotation//Name[@Image="Test"]//@BeginLine]
+					]]>
+				</value>
+			</property>
+		</properties>
+	</rule>
+	<rule name="JUnitIgnoreAndInSequence" language="java" class="net.sourceforge.pmd.lang.rule.XPathRule"
+	      message="JUnit tests with @Ignore do not need a sequence and should not specify one.">
+		<description />
+		<priority>1</priority>
+		<properties>
+			<property name="xpath">
+				<value>
+					<![CDATA[
+						//Annotation//Name[@Image="Ignore"]/../../../Annotation//Name[@Image="InSequence"]
+					]]>
+				</value>
+			</property>
+		</properties>
+	</rule>
+</ruleset>
