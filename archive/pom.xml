@@ -3,13 +3,13 @@
 	 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.unigrid</groupId>
+	<groupId>org.unigrid.antdekn</groupId>
 	<artifactId>archive</artifactId>
 	<packaging>ear</packaging>
 	<name>Antdekn Explorer Enterprise Archive</name>
 
 	<parent>
-		<groupId>org.unigrid</groupId>
+		<groupId>org.unigrid.antdekn</groupId>
 		<artifactId>parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
@@ -37,19 +37,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>${project.parent.groupId}</groupId>
-			<artifactId>configuration</artifactId>
-			<version>${project.parent.version}</version>
-			<type>jar</type>
-		</dependency>
-		<dependency>
-			<groupId>${project.parent.groupId}</groupId>
-			<artifactId>security</artifactId>
-			<version>${project.parent.version}</version>
-			<type>jar</type>
-		</dependency>
-		<dependency>
-			<groupId>${project.parent.groupId}</groupId>
-			<artifactId>database</artifactId>
+			<artifactId>backend</artifactId>
 			<version>${project.parent.version}</version>
 			<type>ejb</type>
 		</dependency>

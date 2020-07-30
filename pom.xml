@@ -461,22 +461,15 @@
 						<defaultLibBundleDir>lib</defaultLibBundleDir>
 						<modules>
 							<ejbModule>
-								<groupId>org.stakeopolis</groupId>
-								<artifactId>database</artifactId>
-								<unpack>true</unpack>
+								<groupId>org.unigrid.antdekn</groupId>
+								<artifactId>backend</artifactId>
+								<!--<unpack>true</unpack>-->
 							</ejbModule>
-							<jarModule>
-								<groupId>org.stakeopolis</groupId>
-								<artifactId>security</artifactId>
-								<includeInApplicationXml>true</includeInApplicationXml>
-								<bundleDir>/</bundleDir>
-								<unpack>true</unpack>
-							</jarModule>
 							<webModule>
-								<groupId>org.stakeopolis</groupId>
+								<groupId>org.unigrid.antdekn</groupId>
 								<artifactId>application</artifactId>
-								<contextRoot>/shitpickle</contextRoot>
-								<unpack>true</unpack>
+								<contextRoot>/antdekn</contextRoot>
+								<!--<unpack>true</unpack>-->
 							</webModule>
 						</modules>
 					</configuration>
@@ -528,9 +521,9 @@
 						<excludes>
 							<exclude>**/generated-sources/*.java</exclude>
 						</excludes>
-                                                <rulesets>
-                                                        <ruleset>../pmd.xml</ruleset>
-                                                </rulesets>
+						<rulesets>
+							<ruleset>../pmd.xml</ruleset>
+						</rulesets>
 						<minimumTokens>70</minimumTokens>
 						<includeTests>true</includeTests>
 					</configuration>
