@@ -3,13 +3,13 @@
 	 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.unigrid</groupId>
+	<groupId>org.unigrid.antdekn</groupId>
 	<artifactId>backend</artifactId>
 	<packaging>ejb</packaging>
 	<name>Antdekn Explorer Backend</name>
 
 	<parent>
-		<groupId>org.unigrid</groupId>
+		<groupId>org.unigrid.antdekn</groupId>
 		<artifactId>parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
@@ -77,16 +77,8 @@
 			<artifactId>common</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>com.github.javafaker</groupId>
 			<artifactId>javafaker</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>ch.vorburger.mariaDB4j</groupId>
-			<artifactId>mariaDB4j</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>commons-lang</groupId>
