@@ -24,6 +24,11 @@
 			<url>http://maven.ejwa.se</url>
 			<name>Public Ejwa Software Maven Repository</name>
 		</repository>
+		<repository>
+			<id>yahoo-bintray</id>
+			<url>https://yahoo.bintray.com/maven</url>
+			<name>Yahoo! Bintray</name>
+		</repository>
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
@@ -338,6 +343,11 @@
 				<artifactId>eclipselink</artifactId>
 				<version>2.7.4</version>
 				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.oath.halodb</groupId>
+				<artifactId>halodb</artifactId>
+				<version>0.5.3</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
