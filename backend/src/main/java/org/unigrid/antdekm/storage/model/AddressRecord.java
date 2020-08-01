@@ -19,11 +19,29 @@ package org.unigrid.antdekm.storage.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.SortedSet;
+import java.util.TreeSet;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-public class Address implements Serializable
+@NoArgsConstructor
+public class AddressRecord implements Serializable
 {
-	private SortedSet<Transaction> transac;
-	private BigDecimal balance;
+	private byte[] hash;
+	private SortedSet<Transaction> transactions = new TreeSet<>();
+	private BigDecimal balance = BigDecimal.ZERO;
+
+	public AddressRecord(byte[] hash) {
+		this.hash = hash;
+	}
+
+	public boolean addTransaction(Transaction t) {
+		if (transactions.contains(t)) {
+			return false;
+		}
+
+		// TODO: Increment the balance of the transaction (via RPC?)
+		transactions.add(t);
+		return true;
+	}
 }
