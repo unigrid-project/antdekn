@@ -34,6 +34,7 @@ public class DatabaseService
 	private static final double COMPACTION_THRESHOLD = 0.7;
 	private static final String DATA_DIRECTORY = "storage";
 	private static final int FLUSH_SIZE = 16 * MB;
+	private static final int KEY_SIZE_BYTES = 16; /* 128 bits */
 	private static final int MAX_FILE_SIZE = 2 * GB;
 	private static final int MAX_TOMBSTONE_SIZE = 64 * MB;
 	private static final int POOL_CHUNK_SIZE = 2 * MB;
@@ -51,9 +52,7 @@ public class DatabaseService
 		options.setMemoryPoolChunkSize(POOL_CHUNK_SIZE);
 		options.setCompactionThresholdPerFile(COMPACTION_THRESHOLD);
 		options.setBuildIndexThreads(Runtime.getRuntime().availableProcessors());
-
-		// TODO: Use the wallet RPC to get address format
-		// options.setFixedKeySize(...);
+		options.setFixedKeySize(KEY_SIZE_BYTES);
 
 		// TODO: Use the wallet RPC to allocate chainsize * 2
 		// options.setNumberOfRecords(...);
