@@ -17,13 +17,24 @@
 package org.unigrid.antdekm.storage.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.SortedSet;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.apache.commons.lang3.builder.CompareToBuilder;
 
 @Data
-public class Address implements Serializable
+public class Transaction implements Comparable<Transaction>, Serializable
 {
-	private SortedSet<Transaction> transac;
-	private BigDecimal balance;
+	/* NOTE: This purposely breaks the equals() contract in order to allow lookups by txId and
+           sorting by timestamp and txId as a secondary sort "column". */
+	@EqualsAndHashCode.Exclude
+	private int timestamp;
+
+	private String txId;
+
+	@Override
+	public int compareTo(Transaction t) {
+		return new CompareToBuilder()
+			.append(timestamp, t.timestamp)
+			.append(txId, txId).toComparison();
+	}
 }
