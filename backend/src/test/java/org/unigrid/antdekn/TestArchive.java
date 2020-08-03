@@ -1,0 +1,42 @@
+/*
+  Antdekn Explorer - Jakarta EE based blockchain explorer
+  Copyright (C) 2020 The Unigrid Organization
+
+  This program is free software: you can redistribute it and/or modify it under the
+  terms of the GNU Affero General Public License as published by the Free Software
+  Foundation, either version 3 of the License, or (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful, but WITHOUT ANY
+  WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+  PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
+
+  You should have received a copy of the GNU Affero General Public License along
+  with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+package org.unigrid.antdekn;
+
+import java.io.File;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import org.eu.ingwar.tools.arquillian.extension.suite.annotations.ArquillianSuiteDeployment;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.shrinkwrap.resolver.api.maven.Maven;
+
+@ArquillianSuiteDeployment
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class TestArchive
+{
+	@Deployment
+	public static Archive<?> deploy() {
+		final File[] files = Maven.resolver().loadPomFromFile("pom.xml").
+			importRuntimeDependencies().resolve().withTransitivity().asFile();
+
+		return ShrinkWrap.create(WebArchive.class).
+			addClass(FakerProducer.class).
+			addAsLibraries(files);
+	}
+}
