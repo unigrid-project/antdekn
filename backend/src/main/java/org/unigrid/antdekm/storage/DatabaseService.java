@@ -89,7 +89,7 @@ public class DatabaseService
 		final byte[] value = db.get(key.array());
 		AddressRecord addressRecord;
 
-		if (value.length > 0 ) {
+		if (value.length > 0) {
 			addressRecord = SerializationUtils.deserialize(value);
 		} else {
 			addressRecord = new AddressRecord(key.array());

@@ -16,13 +16,13 @@
 
 package org.unigrid.antdekm.wallet;
 
-import org.unigrid.antdekm.wallet.model.Transaction;
 import com.github.arteam.simplejsonrpc.client.JsonRpcParams;
 import com.github.arteam.simplejsonrpc.client.ParamsType;
 import com.github.arteam.simplejsonrpc.core.annotation.JsonRpcMethod;
 import com.github.arteam.simplejsonrpc.core.annotation.JsonRpcParam;
 import com.github.arteam.simplejsonrpc.core.annotation.JsonRpcService;
 import javax.ejb.Stateless;
+import org.unigrid.antdekm.wallet.model.Transaction;
 
 @Stateless
 public class TransactionService extends AbstractWalletService<TransactionService.Service>
@@ -33,7 +33,8 @@ public class TransactionService extends AbstractWalletService<TransactionService
 
 	@JsonRpcService
 	@JsonRpcParams(ParamsType.ARRAY)
-	public interface Service {
+	public interface Service
+	{
 		@JsonRpcMethod("gettransaction")
 		Transaction getTransaction(@JsonRpcParam("txid") String txid);
 	}

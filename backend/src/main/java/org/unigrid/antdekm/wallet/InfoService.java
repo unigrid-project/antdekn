@@ -16,12 +16,12 @@
 
 package org.unigrid.antdekm.wallet;
 
-import org.unigrid.antdekm.wallet.model.Info;
 import com.github.arteam.simplejsonrpc.client.JsonRpcParams;
 import com.github.arteam.simplejsonrpc.client.ParamsType;
 import com.github.arteam.simplejsonrpc.core.annotation.JsonRpcMethod;
 import com.github.arteam.simplejsonrpc.core.annotation.JsonRpcService;
 import javax.ejb.Stateless;
+import org.unigrid.antdekm.wallet.model.Info;
 
 @Stateless
 public class InfoService extends AbstractWalletService<InfoService.Service>
@@ -32,7 +32,8 @@ public class InfoService extends AbstractWalletService<InfoService.Service>
 
 	@JsonRpcService
 	@JsonRpcParams(ParamsType.ARRAY)
-	public interface Service {
+	public interface Service
+	{
 		@JsonRpcMethod("getinfo")
 		Info getInfo();
 	}

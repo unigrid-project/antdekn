@@ -37,7 +37,8 @@ public class Transaction implements Serializable
 
 	@Data
 	@JsonIgnoreProperties(ignoreUnknown = true)
-	public static class Details implements Serializable {
+	public static class Details implements Serializable
+	{
 		@JsonProperty private String address;
 		@JsonProperty private BigDecimal amount;
 		@JsonProperty private int vout;

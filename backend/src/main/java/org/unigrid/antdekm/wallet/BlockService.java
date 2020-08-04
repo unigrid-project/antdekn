@@ -16,13 +16,13 @@
 
 package org.unigrid.antdekm.wallet;
 
-import org.unigrid.antdekm.wallet.model.Block;
 import com.github.arteam.simplejsonrpc.client.JsonRpcParams;
 import com.github.arteam.simplejsonrpc.client.ParamsType;
 import com.github.arteam.simplejsonrpc.core.annotation.JsonRpcMethod;
 import com.github.arteam.simplejsonrpc.core.annotation.JsonRpcParam;
 import com.github.arteam.simplejsonrpc.core.annotation.JsonRpcService;
 import javax.ejb.Stateless;
+import org.unigrid.antdekm.wallet.model.Block;
 
 @Stateless
 public class BlockService extends AbstractWalletService<BlockService.Service>
@@ -33,7 +33,8 @@ public class BlockService extends AbstractWalletService<BlockService.Service>
 
 	@JsonRpcService
 	@JsonRpcParams(ParamsType.ARRAY)
-	public interface Service {
+	public interface Service
+	{
 		@JsonRpcMethod("getblock")
 		Block getBlock(@JsonRpcParam("blockhash") String blockHash);
 	}

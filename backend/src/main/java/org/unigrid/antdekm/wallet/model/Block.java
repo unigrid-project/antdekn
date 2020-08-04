@@ -22,6 +22,7 @@ import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Block {
+public class Block
+{
 	@JsonProperty private long height;
 }
