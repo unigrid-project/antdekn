@@ -1,0 +1,3 @@
+2020/08/04-05:32:42.133210 139973017118528 Reusing MANIFEST /home/adamw/Projects/antdekn/backend/src/test/resources/daemons/neutron/datadir/txleveldb/MANIFEST-000001
+2020/08/04-05:32:42.133285 139973017118528 Recovering log #4
+2020/08/04-05:32:42.204852 139973017118528 Reusing old log /home/adamw/Projects/antdekn/backend/src/test/resources/daemons/neutron/datadir/txleveldb/000004.log 
