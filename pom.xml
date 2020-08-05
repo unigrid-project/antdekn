@@ -379,23 +379,6 @@
 						<generatePom>true</generatePom>
 					</configuration>
 				</plugin>
-				<!--<plugin>
-				    <groupId>org.apache.maven.plugins</groupId>
-				    <artifactId>maven-patch-plugin</artifactId>
-				    <version>1.2</version>
-				    <configuration>
-					<originalFile>${project.build.directory}/test-classes/config/domain.xml</originalFile>
-					<patchFile>${basedir}/src/test/resources/domain.xml.patch</patchFile>
-				    </configuration>
-				    <executions>
-					<execution>
-					    <phase>process-test-resources</phase>
-					    <goals>
-						<goal>apply</goal>
-					    </goals>
-					</execution>
-				    </executions>
-				</plugin>-->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-checkstyle-plugin</artifactId>
@@ -474,32 +457,6 @@
 					<configuration>
 						<ejbVersion>3.2</ejbVersion>
 					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.bsc.maven</groupId>
-					<artifactId>maven-processor-plugin</artifactId>
-					<version>3.3.3</version>
-					<executions>
-						<execution>
-							<id>querydsl-jpa-metamodel</id>
-							<goals>
-								<goal>process</goal>
-							</goals>
-							<phase>generate-sources</phase>
-							<configuration>
-								<processors>
-									<processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
-								</processors>
-							</configuration>
-						</execution>
-					</executions>
-					<dependencies>
-						<dependency>
-							<groupId>org.apache.openjpa</groupId>
-							<artifactId>openjpa</artifactId>
-							<version>3.1.1</version>
-						</dependency>
-					</dependencies>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
