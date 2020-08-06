@@ -18,7 +18,13 @@ package org.unigrid.antdekn;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecuteResultHandler;
@@ -26,6 +32,8 @@ import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.ProcessDestroyer;
 import org.apache.commons.exec.ShutdownHookProcessDestroyer;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eu.ingwar.tools.arquillian.extension.suite.annotations.ArquillianSuiteDeployment;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.Archive;
@@ -37,23 +45,43 @@ import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class TestArchive
 {
-	private static final String[] CRYPTOCURRENCY_DAEMONS = {
-		"neutron/neutrond-v4.1.1-linux-x86_64.AppImage"
-	};
+	public static final List<Daemon> DAEMONS = Arrays.asList(
+		new Daemon("neutron", "neutron/neutrond-v4.1.1-linux-x86_64.AppImage", "neutron.conf")
+	);
 
+	private static final String CONFIG_RPCUSER = "rpcuser=";
+	private static final String CONFIG_RPCPASSWORD = "rpcpassword=";
 	private static final String DATA_DIR_ARGUMENT = "-datadir=%s/datadir";
 
-	private static void runCryptocurrencyDaemon(String daemon) throws IOException {
-		final ClassLoader c = TestArchive.class.getClassLoader();
-		final File file = new File(c.getResource("daemons/" + daemon).getFile());
-		final CommandLine commandLine = new CommandLine(file);
+	@Getter
+	private static final Map<String, Login> loginDetails = new HashMap<>();
+
+	private static void collectLoginDetails(Daemon daemon, String workingDirectory) throws IOException {
+		final String configPath = String.format("%s/datadir/%s", workingDirectory, daemon.getConfigPath());
+		String user = StringUtils.EMPTY;
+		String password = StringUtils.EMPTY;
+
+		/* Read data from file and populate user/password */
+		for (String setting : FileUtils.readLines(new File(configPath), StandardCharsets.UTF_8.name())) {
+			if (setting.contains(CONFIG_RPCUSER)) {
+				user = setting.replace(CONFIG_RPCUSER, StringUtils.EMPTY);
+			} else if (setting.contains(CONFIG_RPCPASSWORD)) {
+				password = setting.replace(CONFIG_RPCPASSWORD, StringUtils.EMPTY);
+			}
+		}
+
+		loginDetails.put(daemon.getName(), new Login(user, password));
+	}
+
+	private static void runCryptocurrencyDaemon(File executable) throws IOException {
+		final CommandLine commandLine = new CommandLine(executable);
 
 		final DefaultExecuteResultHandler result = new DefaultExecuteResultHandler();
 		final Executor executor = new DefaultExecutor();
 		final ProcessDestroyer destroyer = new ShutdownHookProcessDestroyer();
 
-		commandLine.addArgument(String.format(DATA_DIR_ARGUMENT, file.getParent()));
-		file.setExecutable(true);
+		commandLine.addArgument(String.format(DATA_DIR_ARGUMENT, executable.getParent()));
+		executable.setExecutable(true);
 		executor.setExitValue(0);
 		executor.setProcessDestroyer(destroyer);
 		executor.execute(commandLine, result);
@@ -64,8 +92,12 @@ public final class TestArchive
 		final File[] files = Maven.resolver().loadPomFromFile("pom.xml").
 			importRuntimeDependencies().resolve().withTransitivity().asFile();
 
-		for (String daemon : CRYPTOCURRENCY_DAEMONS) {
-			runCryptocurrencyDaemon(daemon);
+		for (Daemon daemon : DAEMONS) {
+			final ClassLoader c = TestArchive.class.getClassLoader();
+			final File exe = new File(c.getResource("daemons/" + daemon.getExecutable()).getFile());
+
+			collectLoginDetails(daemon, exe.getParent());
+			runCryptocurrencyDaemon(exe);
 		}
 
 		return ShrinkWrap.create(WebArchive.class).
