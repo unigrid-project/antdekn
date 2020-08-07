@@ -72,7 +72,7 @@ public class AbstractWalletService<T>
 						httpClient = HttpClientBuilder.create().build();
 
 						final String url = String.format("http://%s:%d",
-							rpcDetails.getIpAddress(), rpcDetails.getPort()
+							rpcDetails.getIpAddress().getHostAddress(), rpcDetails.getPort()
 						);
 
 						final HttpPost post = new HttpPost(url);
