@@ -95,8 +95,10 @@ public final class TestArchive
 			runCryptocurrencyDaemon(exe);
 		}
 
-		return ShrinkWrap.create(WebArchive.class).
-			addClass(FakerProducer.class).
-			addAsLibraries(files);
+		return ShrinkWrap.create(WebArchive.class)
+			.addClass(FakerProducer.class)
+			.addClass(InfoService.class)
+			.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
+			.addAsLibraries(files);
 	}
 }
