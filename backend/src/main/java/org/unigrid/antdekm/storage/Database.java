@@ -19,19 +19,14 @@ package org.unigrid.antdekm.storage;
 import com.oath.halodb.HaloDB;
 import com.oath.halodb.HaloDBException;
 import com.oath.halodb.HaloDBOptions;
-import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
-import org.apache.commons.codec.digest.MurmurHash3;
-import org.apache.commons.lang3.SerializationUtils;
-import org.unigrid.antdekm.storage.model.AddressRecord;
-import org.unigrid.antdekm.storage.model.Transaction;
+import lombok.Getter;
 
 @Singleton
-public class DatabaseService
+public class Database
 {
 	private static final int MB = 1024 * 1024;
 	private static final int GB = MB * 1024;
@@ -45,6 +40,7 @@ public class DatabaseService
 	private static final int MAX_TOMBSTONE_SIZE = 64 * MB;
 	private static final int POOL_CHUNK_SIZE = 2 * MB;
 
+	@Getter
 	private HaloDB db;
 
 	@PostConstruct
@@ -75,33 +71,5 @@ public class DatabaseService
 				"Failed to open antdekn database...", ex
 			);
 		}
-	}
-
-	// TODO: Move these to a transaction service that uses the database?
-
-	public AddressRecord get(String address) throws HaloDBException {
-		final long[] hash = MurmurHash3.hash128(address.getBytes(StandardCharsets.UTF_8));
-		final ByteBuffer key = ByteBuffer.allocate(hash.length * Long.BYTES);
-
-		key.putLong(hash[0]);
-		key.putLong(hash[1]);
-
-		final byte[] value = db.get(key.array());
-		AddressRecord addressRecord;
-
-		if (value.length > 0) {
-			addressRecord = SerializationUtils.deserialize(value);
-		} else {
-			addressRecord = new AddressRecord(key.array());
-		}
-
-		return addressRecord;
-	}
-
-	public void merge(String address, Transaction transaction) throws HaloDBException {
-		final AddressRecord addressRecord = get(address);
-
-		addressRecord.addTransaction(transaction);
-		db.put(addressRecord.getHash(), SerializationUtils.serialize(addressRecord));
 	}
 }
