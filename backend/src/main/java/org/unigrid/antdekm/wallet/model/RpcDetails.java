@@ -26,5 +26,5 @@ public class RpcDetails implements Serializable
 	private String userName;
 	private String password;
 	private InetAddress ipAddress;
-	private int port;
+	private final int port;
 }

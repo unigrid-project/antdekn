@@ -17,6 +17,7 @@
 package org.unigrid.antdekn;
 
 import lombok.Data;
+import org.unigrid.antdekm.wallet.model.RpcDetails;
 
 @Data
 public class Daemon
@@ -24,4 +25,5 @@ public class Daemon
 	private final String name;
 	private final String executable;
 	private final String configPath;
+	private final RpcDetails rpcDetails;
 }

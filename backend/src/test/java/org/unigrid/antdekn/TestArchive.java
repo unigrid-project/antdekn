@@ -18,13 +18,11 @@ package org.unigrid.antdekn;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecuteResultHandler;
@@ -38,39 +36,35 @@ import org.eu.ingwar.tools.arquillian.extension.suite.annotations.ArquillianSuit
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
+import org.unigrid.antdekm.wallet.InfoService;
+import org.unigrid.antdekm.wallet.model.RpcDetails;
 
 @ArquillianSuiteDeployment
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class TestArchive
 {
 	public static final List<Daemon> DAEMONS = Arrays.asList(
-		new Daemon("neutron", "neutron/neutrond-v4.1.1-linux-x86_64.AppImage", "neutron.conf")
+		new Daemon("neutron", "neutron/neutrond-v4.1.1-linux-x86_64.AppImage", "neutron.conf", new RpcDetails(32000))
 	);
 
 	private static final String CONFIG_RPCUSER = "rpcuser=";
 	private static final String CONFIG_RPCPASSWORD = "rpcpassword=";
 	private static final String DATA_DIR_ARGUMENT = "-datadir=%s/datadir";
 
-	@Getter
-	private static final Map<String, Login> loginDetails = new HashMap<>();
-
 	private static void collectLoginDetails(Daemon daemon, String workingDirectory) throws IOException {
 		final String configPath = String.format("%s/datadir/%s", workingDirectory, daemon.getConfigPath());
-		String user = StringUtils.EMPTY;
-		String password = StringUtils.EMPTY;
 
 		/* Read data from file and populate user/password */
 		for (String setting : FileUtils.readLines(new File(configPath), StandardCharsets.UTF_8.name())) {
 			if (setting.contains(CONFIG_RPCUSER)) {
-				user = setting.replace(CONFIG_RPCUSER, StringUtils.EMPTY);
+				daemon.getRpcDetails().setUserName(setting.replace(CONFIG_RPCUSER, StringUtils.EMPTY));
 			} else if (setting.contains(CONFIG_RPCPASSWORD)) {
-				password = setting.replace(CONFIG_RPCPASSWORD, StringUtils.EMPTY);
+				daemon.getRpcDetails().setPassword(setting.replace(CONFIG_RPCPASSWORD, StringUtils.EMPTY));
 			}
 		}
-
-		loginDetails.put(daemon.getName(), new Login(user, password));
 	}
 
 	private static void runCryptocurrencyDaemon(File executable) throws IOException {
@@ -96,6 +90,7 @@ public final class TestArchive
 			final ClassLoader c = TestArchive.class.getClassLoader();
 			final File exe = new File(c.getResource("daemons/" + daemon.getExecutable()).getFile());
 
+			daemon.getRpcDetails().setIpAddress(InetAddress.getLoopbackAddress());
 			collectLoginDetails(daemon, exe.getParent());
 			runCryptocurrencyDaemon(exe);
 		}
