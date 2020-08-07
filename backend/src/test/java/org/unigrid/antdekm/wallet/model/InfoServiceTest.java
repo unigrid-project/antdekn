@@ -19,7 +19,7 @@ package org.unigrid.antdekm.wallet.model;
 import javax.ejb.EJB;
 import org.apache.http.auth.AuthenticationException;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.arquillian.junit.InSequence;
+import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.unigrid.antdekm.wallet.InfoService;
@@ -33,9 +33,9 @@ public class InfoServiceTest
 	private InfoService infoService;
 
 	@Test
-	@InSequence(0)
-	public void shitpickle() throws AuthenticationException, InterruptedException {
+	public void canFetch() throws AuthenticationException, InterruptedException {
+		// TODO: Support other daemons than neutron
 		final Daemon daemon = TestArchive.DAEMONS.get(0);
-		System.out.println(infoService.call(daemon.getRpcDetails()).getInfo());
+		assertNotNull(infoService.call(daemon.getRpcDetails()).getInfo());
 	}
 }
