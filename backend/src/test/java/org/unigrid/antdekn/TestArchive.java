@@ -39,6 +39,7 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
+import org.unigrid.antdekm.wallet.BlockService;
 import org.unigrid.antdekm.wallet.InfoService;
 import org.unigrid.antdekm.wallet.model.RpcDetails;
 
@@ -97,6 +98,7 @@ public final class TestArchive
 
 		return ShrinkWrap.create(WebArchive.class)
 			.addClass(FakerProducer.class)
+			.addClass(BlockService.class)
 			.addClass(InfoService.class)
 			.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
 			.addAsLibraries(files);

@@ -22,7 +22,8 @@ import com.github.arteam.simplejsonrpc.core.annotation.JsonRpcMethod;
 import com.github.arteam.simplejsonrpc.core.annotation.JsonRpcParam;
 import com.github.arteam.simplejsonrpc.core.annotation.JsonRpcService;
 import javax.ejb.Stateless;
-import org.unigrid.antdekm.wallet.model.Block;
+import org.unigrid.antdekm.wallet.model.block.Block;
+import org.unigrid.antdekm.wallet.model.block.VerboseBlock;
 
 @Stateless
 public class BlockService extends AbstractWalletService<BlockService.Service>
@@ -36,6 +37,12 @@ public class BlockService extends AbstractWalletService<BlockService.Service>
 	public interface Service
 	{
 		@JsonRpcMethod("getblock")
-		Block getBlock(@JsonRpcParam("blockhash") String blockHash);
+		VerboseBlock getBlock(@JsonRpcParam("blockhash") String blockHash);
+
+		@JsonRpcMethod("getblockbynumber")
+		VerboseBlock getBlockByNumber(@JsonRpcParam("number") int number, @JsonRpcParam("txinfo") boolean txInfo);
+
+		@JsonRpcMethod("getblockbynumber")
+		Block getBlockByNumber(@JsonRpcParam("number") int number);
 	}
 }

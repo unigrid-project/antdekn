@@ -14,15 +14,22 @@
   with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.unigrid.antdekm.wallet.model;
+package org.unigrid.antdekm.wallet.model.block;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
+import java.util.List;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.unigrid.antdekm.wallet.model.Transaction;
 
 @Data
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Block
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class VerboseBlock extends BaseBlock implements Serializable
 {
-	@JsonProperty private long height;
+	private List<Transaction> tx;
 }
