@@ -27,21 +27,33 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Transaction implements Serializable
 {
-	@JsonProperty private BigDecimal amount;
-	@JsonProperty private String blockhash;
-	@JsonProperty private int confirmations;
-	@JsonProperty private List<Details> details;
-	@JsonProperty private BigDecimal fee;
-	@JsonProperty private BigDecimal time;
-	@JsonProperty private String txid;
+	@JsonProperty("txid") private String txId;
+	@JsonProperty("vin") private List<In> vIn;
+	@JsonProperty("vout") private List<Out> vOut;
 
 	@Data
 	@JsonIgnoreProperties(ignoreUnknown = true)
-	public static class Details implements Serializable
+	public static class In implements Serializable
 	{
-		@JsonProperty private String address;
-		@JsonProperty private BigDecimal amount;
-		@JsonProperty private int vout;
-		@JsonProperty private BigDecimal fee;
+		private int n;
+
+		@JsonProperty("txid") private String txId;
+		@JsonProperty("vout") private int vOut;
+	}
+
+	@Data
+	@JsonIgnoreProperties(ignoreUnknown = true)
+	public static class Out implements Serializable
+	{
+		private int n;
+		private ScriptPubKey scriptPubKey;
+		private BigDecimal value;
+
+		@Data
+		@JsonIgnoreProperties(ignoreUnknown = true)
+		public static class ScriptPubKey implements Serializable {
+			private List<String> addresses;
+			private String type;
+		}
 	}
 }

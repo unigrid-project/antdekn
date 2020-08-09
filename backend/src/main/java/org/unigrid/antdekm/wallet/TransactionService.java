@@ -36,6 +36,6 @@ public class TransactionService extends AbstractWalletService<TransactionService
 	public interface Service
 	{
 		@JsonRpcMethod("gettransaction")
-		Transaction getTransaction(@JsonRpcParam("txid") String txid);
+		Transaction getTransaction(@JsonRpcParam("txid") String txId);
 	}
 }

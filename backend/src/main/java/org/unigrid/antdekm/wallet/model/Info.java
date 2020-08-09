@@ -25,9 +25,9 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Info
 {
-	@JsonProperty private int blocks;
-	@JsonProperty private int connections;
-	@JsonProperty private String version;
+	private int blocks;
+	private int connections;
+	private String version;
 
 	@JsonProperty("moneysupply")
 	private BigDecimal moneySupply;
