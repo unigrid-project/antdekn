@@ -12,30 +12,17 @@
 
   You should have received a copy of the GNU Affero General Public License along
   with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
+*/
 
-package org.unigrid.antdekm.wallet.model;
+package org.unigrid.antdekn;
 
-import javax.ejb.EJB;
-import org.apache.http.auth.AuthenticationException;
 import org.jboss.arquillian.junit.Arquillian;
-import static org.junit.Assert.assertNotNull;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.unigrid.antdekm.wallet.InfoService;
-import org.unigrid.antdekn.test.Daemon;
-import org.unigrid.antdekn.test.TestArchive;
 
 @RunWith(Arquillian.class)
-public class InfoServiceTest
+public class DaemonPollingServiceTest
 {
-	@EJB
-	private InfoService infoService;
-
-	@Test
-	public void canFetch() throws AuthenticationException, InterruptedException {
-		// TODO: Support other daemons than neutron
-		final Daemon daemon = TestArchive.DAEMONS.get(0);
-		assertNotNull(infoService.call(daemon.getRpcDetails()).getInfo());
-	}
+	/* @Test
+	public void empty() {
+	} */
 }

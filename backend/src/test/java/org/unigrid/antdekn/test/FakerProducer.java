@@ -14,20 +14,20 @@
   with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.unigrid.antdekn;
+package org.unigrid.antdekn.test;
 
 import com.github.javafaker.Faker;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import org.junit.Before;
+import java.util.Random;
+import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Produces;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BaseTest
+@Dependent
+public class FakerProducer
 {
-	protected Faker faker;
+	private static final int FAKER_SEED = 42;
 
-	@Before
-	public void before() {
-		faker = new FakerProducer().getFaker();
+	@Produces
+	public Faker getFaker() {
+		return new Faker(new Random(FAKER_SEED));
 	}
 }

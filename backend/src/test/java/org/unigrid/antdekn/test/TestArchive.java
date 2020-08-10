@@ -14,8 +14,10 @@
   with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.unigrid.antdekn;
+package org.unigrid.antdekn.test;
 
+import org.unigrid.antdekn.test.FakerProducer;
+import org.unigrid.antdekn.test.Daemon;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -39,6 +41,8 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
+import org.unigrid.antdekm.DaemonPollingService;
+import org.unigrid.antdekm.storage.Database;
 import org.unigrid.antdekm.wallet.BlockService;
 import org.unigrid.antdekm.wallet.InfoService;
 import org.unigrid.antdekm.wallet.model.RpcDetails;
@@ -97,6 +101,8 @@ public final class TestArchive
 		}
 
 		return ShrinkWrap.create(WebArchive.class)
+			.addClass(DaemonPollingService.class)
+			.addClass(Database.class)
 			.addClass(FakerProducer.class)
 			.addClass(BlockService.class)
 			.addClass(InfoService.class)

@@ -26,8 +26,8 @@ import org.unigrid.antdekm.wallet.BlockService;
 import org.unigrid.antdekm.wallet.TransactionService;
 import org.unigrid.antdekm.wallet.model.block.Block;
 import org.unigrid.antdekm.wallet.model.block.VerboseBlock;
-import org.unigrid.antdekn.Daemon;
-import org.unigrid.antdekn.TestArchive;
+import org.unigrid.antdekn.test.Daemon;
+import org.unigrid.antdekn.test.TestArchive;
 
 @RunWith(Arquillian.class)
 public class BlockServiceTest

@@ -14,16 +14,36 @@
   with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-package org.unigrid.antdekn;
+package org.unigrid.antdekm;
 
-import lombok.Data;
-import org.unigrid.antdekm.wallet.model.RpcDetails;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.ejb.Schedule;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
+import lombok.Getter;
+import org.unigrid.antdekm.wallet.InfoService;
+import org.unigrid.antdekm.wallet.model.Info;
 
-@Data
-public class Daemon
+@Startup
+@Singleton
+public class DaemonPollingService
 {
-	private final String name;
-	private final String executable;
-	private final String configPath;
-	private final RpcDetails rpcDetails;
+	@Getter
+	private Info info;
+
+	@EJB
+	private InfoService infoService;
+
+	// @Inject
+	// private RpcDetails rpcDetails;
+
+	@PostConstruct
+	private void init() {
+		// infoService.call(rpcDetails)
+	}
+
+	@Schedule(second = "*/5", minute = "*", hour = "*", persistent = false)
+	private void run() {
+	}
 }

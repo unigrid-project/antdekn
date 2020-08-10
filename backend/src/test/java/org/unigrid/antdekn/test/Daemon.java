@@ -14,13 +14,16 @@
   with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-package org.unigrid.antdekn;
+package org.unigrid.antdekn.test;
 
 import lombok.Data;
+import org.unigrid.antdekm.wallet.model.RpcDetails;
 
 @Data
-public class Login
+public class Daemon
 {
-	private final String user;
-	private final String password;
+	private final String name;
+	private final String executable;
+	private final String configPath;
+	private final RpcDetails rpcDetails;
 }
