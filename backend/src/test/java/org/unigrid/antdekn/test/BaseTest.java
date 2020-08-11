@@ -16,7 +16,6 @@
 
 package org.unigrid.antdekn.test;
 
-import org.unigrid.antdekn.test.FakerProducer;
 import com.github.javafaker.Faker;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

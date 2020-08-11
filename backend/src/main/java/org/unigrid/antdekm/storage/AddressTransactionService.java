@@ -28,5 +28,5 @@ public class AddressTransactionService extends AbstractDatabaseService<AddressRe
 
 		addressRecord.addTransaction(transaction);
 		database.getDb().put(addressRecord.getHash(), SerializationUtils.serialize(addressRecord));
-	}	
+	}
 }

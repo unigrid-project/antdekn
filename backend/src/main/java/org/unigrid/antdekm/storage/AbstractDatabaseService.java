@@ -50,7 +50,7 @@ public class AbstractDatabaseService<T>
 			try {
 				addressRecord = ConstructorUtils.invokeConstructor(clazz, hashKey.array());
 			} catch (IllegalAccessException | InstantiationException
-				 | InvocationTargetException | NoSuchMethodException ex) {
+				| InvocationTargetException | NoSuchMethodException ex) {
 				Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
 			}
 		}

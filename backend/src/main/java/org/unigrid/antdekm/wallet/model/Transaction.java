@@ -51,7 +51,8 @@ public class Transaction implements Serializable
 
 		@Data
 		@JsonIgnoreProperties(ignoreUnknown = true)
-		public static class ScriptPubKey implements Serializable {
+		public static class ScriptPubKey implements Serializable
+		{
 			private List<String> addresses;
 			private String type;
 		}

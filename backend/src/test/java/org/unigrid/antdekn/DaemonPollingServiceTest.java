@@ -17,12 +17,15 @@
 package org.unigrid.antdekn;
 
 import org.jboss.arquillian.junit.Arquillian;
+import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(Arquillian.class)
 public class DaemonPollingServiceTest
 {
-	/* @Test
+	@Test
 	public void empty() {
-	} */
+		assertTrue(true);
+	}
 }

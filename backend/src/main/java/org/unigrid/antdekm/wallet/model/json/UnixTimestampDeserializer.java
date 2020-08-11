@@ -24,8 +24,8 @@ import java.time.Instant;
 
 public class UnixTimestampDeserializer extends JsonDeserializer<Instant>
 {
-    @Override
-    public Instant deserialize(JsonParser parser, DeserializationContext context) throws IOException {
-        return Instant.ofEpochSecond(Long.valueOf(parser.getText().trim()));
-    }
+	@Override
+	public Instant deserialize(JsonParser parser, DeserializationContext context) throws IOException {
+		return Instant.ofEpochSecond(Long.valueOf(parser.getText().trim()));
+	}
 }
