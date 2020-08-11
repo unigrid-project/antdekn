@@ -25,5 +25,5 @@ public class Daemon
 	private final String name;
 	private final String executable;
 	private final String configPath;
-	private final RpcDetails rpcDetails;
+	private final RpcDetails.Entry rpcDetailsEntry;
 }

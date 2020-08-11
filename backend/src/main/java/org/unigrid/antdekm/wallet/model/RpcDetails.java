@@ -12,19 +12,28 @@
 
   You should have received a copy of the GNU Affero General Public License along
   with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.unigrid.antdekm.wallet.model;
 
 import java.io.Serializable;
 import java.net.InetAddress;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import lombok.Data;
 
 @Data
 public class RpcDetails implements Serializable
 {
-	private String userName;
-	private String password;
-	private InetAddress ipAddress;
-	private final int port;
+	private Map<String, List<Entry>> entries = new HashMap<>();
+
+	@Data
+	public static class Entry implements Serializable
+	{
+		private String userName;
+		private String password;
+		private InetAddress ipAddress;
+		private final int port;
+	}
 }
