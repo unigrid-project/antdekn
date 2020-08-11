@@ -36,6 +36,6 @@ public class InfoServiceTest
 	public void canFetch() throws AuthenticationException, InterruptedException {
 		// TODO: Support other daemons than neutron
 		final Daemon daemon = TestArchive.DAEMONS.get(0);
-		assertNotNull(infoService.call(daemon.getRpcDetailsEntry()).getInfo());
+		assertNotNull(infoService.call(daemon.getRpcDetails()).getInfo());
 	}
 }

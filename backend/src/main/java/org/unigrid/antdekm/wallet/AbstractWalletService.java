@@ -48,8 +48,8 @@ public class AbstractWalletService<T>
 		this.serviceType = serviceType;
 	}
 
-	public T call(final RpcDetails.Entry rpcDetailsEntry) throws AuthenticationException {
-		if (cachedRpcDetailsHashCode != rpcDetailsEntry.hashCode()) {
+	public T call(final RpcDetails rpcDetails) throws AuthenticationException {
+		if (cachedRpcDetailsHashCode != rpcDetails.hashCode()) {
 			try {
 				if (httpClient != null) {
 					httpClient.close();
@@ -63,7 +63,7 @@ public class AbstractWalletService<T>
 				private final CredentialsProvider provider = new BasicCredentialsProvider();
 
 				private final UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(
-					rpcDetailsEntry.getUserName(), rpcDetailsEntry.getPassword()
+					rpcDetails.getUserName(), rpcDetails.getPassword()
 				);
 
 				@Override
@@ -72,16 +72,16 @@ public class AbstractWalletService<T>
 						httpClient = HttpClientBuilder.create().build();
 
 						final String url = String.format("http://%s:%d",
-							rpcDetailsEntry.getIpAddress().getHostAddress(),
-							rpcDetailsEntry.getPort()
+							rpcDetails.getIpAddress().getHostAddress(),
+							rpcDetails.getPort()
 						);
 
 						final HttpPost post = new HttpPost(url);
 						post.setEntity(new StringEntity(request, StandardCharsets.UTF_8));
 
 						final Header header = new BasicScheme(StandardCharsets.UTF_8).authenticate(
-							new UsernamePasswordCredentials(rpcDetailsEntry.getUserName(),
-								rpcDetailsEntry.getPassword()
+							new UsernamePasswordCredentials(rpcDetails.getUserName(),
+								rpcDetails.getPassword()
 							), post, null
 						);
 

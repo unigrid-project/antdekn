@@ -12,18 +12,33 @@
 
   You should have received a copy of the GNU Affero General Public License along
   with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
+ */
 
-package org.unigrid.antdekn.test;
+package org.unigrid.antdekm.wallet;
 
-import lombok.Data;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.ejb.Singleton;
 import org.unigrid.antdekm.wallet.model.RpcDetails;
 
-@Data
-public class Daemon
+@Singleton
+public class RpcDetailsService
 {
-	private final String name;
-	private final String executable;
-	private final String configPath;
-	private final RpcDetails rpcDetails;
+	private final Map<String, List<RpcDetails>> entries = new HashMap<>();
+
+	public void add(String daemon, RpcDetails rpcDetails) {
+		List<RpcDetails> daemons = entries.get(daemon);
+
+		if (daemons == null) {
+			daemons = new ArrayList<>();
+		}
+
+		daemons.add(rpcDetails);
+	}
+
+	public List<RpcDetails> get(String daemon) {
+		return new ArrayList<>(entries.get(daemon));
+	}
 }

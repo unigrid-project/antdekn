@@ -42,8 +42,8 @@ public class BlockServiceTest
 	public void canFetch() throws AuthenticationException, InterruptedException {
 		// TODO: Support other daemons than neutron
 		final Daemon daemon = TestArchive.DAEMONS.get(0);
-		final Block b = blockService.call(daemon.getRpcDetailsEntry()).getBlockByNumber(1333);
-		final VerboseBlock vb = blockService.call(daemon.getRpcDetailsEntry()).getBlockByNumber(1333, true);
+		final Block b = blockService.call(daemon.getRpcDetails()).getBlockByNumber(1333);
+		final VerboseBlock vb = blockService.call(daemon.getRpcDetails()).getBlockByNumber(1333, true);
 
 		assertEquals(b.getHash(), vb.getHash());
 	}
