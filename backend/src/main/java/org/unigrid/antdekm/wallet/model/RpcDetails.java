@@ -18,15 +18,17 @@ package org.unigrid.antdekm.wallet.model;
 
 import java.io.Serializable;
 import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.ejb.Singleton;
 import lombok.Data;
 
-@Data
-public class RpcDetails implements Serializable
+@Singleton
+public class RpcDetails
 {
-	private Map<String, List<Entry>> entries = new HashMap<>();
+	private final Map<String, List<Entry>> entries = new HashMap<>();
 
 	@Data
 	public static class Entry implements Serializable
@@ -35,5 +37,19 @@ public class RpcDetails implements Serializable
 		private String password;
 		private InetAddress ipAddress;
 		private final int port;
+	}
+
+	public void add(String daemon, Entry entry) {
+		List<Entry> daemons = entries.get(daemon);
+
+		if (daemons == null) {
+			daemons = new ArrayList<>();
+		}
+
+		daemons.add(entry);
+	}
+
+	public List<Entry> get(String daemon) {
+		return new ArrayList<>(entries.get(daemon));
 	}
 }
