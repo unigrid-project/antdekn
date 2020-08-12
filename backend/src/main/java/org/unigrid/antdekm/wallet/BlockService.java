@@ -44,5 +44,8 @@ public class BlockService extends AbstractWalletService<BlockService.Service>
 
 		@JsonRpcMethod("getblockbynumber")
 		Block getBlockByNumber(@JsonRpcParam("number") int number);
+
+		@JsonRpcMethod("getblockcount")
+		int getBlockCount();
 	}
 }

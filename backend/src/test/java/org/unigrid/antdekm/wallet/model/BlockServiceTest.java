@@ -20,6 +20,7 @@ import javax.ejb.EJB;
 import org.apache.http.auth.AuthenticationException;
 import org.jboss.arquillian.junit.Arquillian;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.unigrid.antdekm.wallet.BlockService;
@@ -39,12 +40,21 @@ public class BlockServiceTest
 	private TransactionService transactionService;
 
 	@Test
-	public void canFetch() throws AuthenticationException, InterruptedException {
+	public void canFetchBlockByNumber() throws AuthenticationException {
 		// TODO: Support other daemons than neutron
 		final Daemon daemon = TestArchive.DAEMONS.get(0);
 		final Block b = blockService.call(daemon.getRpcDetails()).getBlockByNumber(1333);
 		final VerboseBlock vb = blockService.call(daemon.getRpcDetails()).getBlockByNumber(1333, true);
 
 		assertEquals(b.getHash(), vb.getHash());
+	}
+
+	@Test
+	public void canFetchBlockCount() throws AuthenticationException {
+		// TODO: Support other daemons than neutron
+		final Daemon daemon = TestArchive.DAEMONS.get(0);
+		final int count = blockService.call(daemon.getRpcDetails()).getBlockCount();
+
+		assertTrue(count > 1000);
 	}
 }
