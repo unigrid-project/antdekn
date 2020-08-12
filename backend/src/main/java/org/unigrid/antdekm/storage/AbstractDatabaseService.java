@@ -17,19 +17,20 @@
 package org.unigrid.antdekm.storage;
 
 import com.oath.halodb.HaloDBException;
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import org.apache.commons.codec.digest.MurmurHash3;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 
-@Singleton
-public class AbstractDatabaseService<T>
+@Stateless
+public class AbstractDatabaseService<T> implements Serializable
 {
 	@EJB
 	protected Database database;
