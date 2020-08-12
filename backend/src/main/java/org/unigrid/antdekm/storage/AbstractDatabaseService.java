@@ -36,7 +36,7 @@ public class AbstractDatabaseService<T> implements Serializable
 	protected Database database;
 
 	public T get(String key, Class<T> clazz) throws HaloDBException {
-		final long[] hash = MurmurHash3.hash128(key.getBytes(StandardCharsets.UTF_8));
+		final long[] hash = MurmurHash3.hash128(key.concat(clazz.getSimpleName()).getBytes(StandardCharsets.UTF_8));
 		final ByteBuffer hashKey = ByteBuffer.allocate(hash.length * Long.BYTES);
 
 		hashKey.putLong(hash[0]);
