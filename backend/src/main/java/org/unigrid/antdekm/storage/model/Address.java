@@ -25,15 +25,11 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class AddressRecord implements Serializable
+public class Address implements Serializable
 {
-	private byte[] hash;
+	private String chainAddress;
 	private SortedSet<Transaction> transactions = new TreeSet<>();
 	private BigDecimal balance = BigDecimal.ZERO;
-
-	public AddressRecord(byte[] hash) {
-		this.hash = hash;
-	}
 
 	public boolean addTransaction(Transaction t) {
 		if (transactions.contains(t)) {

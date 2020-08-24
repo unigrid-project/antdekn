@@ -18,15 +18,21 @@ package org.unigrid.antdekm.storage;
 
 import com.oath.halodb.HaloDBException;
 import org.apache.commons.lang3.SerializationUtils;
-import org.unigrid.antdekm.storage.model.AddressRecord;
+import org.unigrid.antdekm.storage.model.Address;
 import org.unigrid.antdekm.storage.model.Transaction;
 
-public class AddressTransactionService extends AbstractDatabaseService<AddressRecord>
+/* @Stateless */
+public class AddressTransactionService extends AbstractDatabaseService<Address>
 {
-	public void merge(String key, Transaction transaction) throws HaloDBException {
-		final AddressRecord addressRecord = get(key, AddressRecord.class);
+	@Override
+	protected String getClassName() {
+		return AddressTransactionService.class.getSimpleName();
+	}
 
-		addressRecord.addTransaction(transaction);
-		database.getDb().put(addressRecord.getHash(), SerializationUtils.serialize(addressRecord));
+	public void merge(String key, Transaction transaction) throws HaloDBException {
+		final Address address = get(key, Address.class);
+
+		address.addTransaction(transaction);
+		database.getDb().put(getHash(address.getChainAddress()), SerializationUtils.serialize(address));
 	}
 }

@@ -24,32 +24,37 @@ import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
 import org.apache.commons.codec.digest.MurmurHash3;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 
-@Stateless
-public class AbstractDatabaseService<T> implements Serializable
+public abstract class AbstractDatabaseService<T> implements Serializable
 {
 	@EJB
 	protected Database database;
 
-	public T get(String key, Class<T> clazz) throws HaloDBException {
-		final long[] hash = MurmurHash3.hash128(key.concat(clazz.getSimpleName()).getBytes(StandardCharsets.UTF_8));
+	protected abstract String getClassName();
+
+	public byte[] getHash(String key) {
+		final long[] hash = MurmurHash3.hash128(key.concat(getClassName()).getBytes(StandardCharsets.UTF_8));
 		final ByteBuffer hashKey = ByteBuffer.allocate(hash.length * Long.BYTES);
 
 		hashKey.putLong(hash[0]);
 		hashKey.putLong(hash[1]);
 
-		final byte[] value = database.getDb().get(hashKey.array());
+		return hashKey.array();
+	}
+
+	public T get(String key, Class<T> clazz) throws HaloDBException {
+		final byte[] hash = getHash(key);
+		final byte[] value = database.getDb().get(hash);
 		T addressRecord = null;
 
 		if (value.length > 0) {
 			addressRecord = SerializationUtils.deserialize(value);
 		} else {
 			try {
-				addressRecord = ConstructorUtils.invokeConstructor(clazz, hashKey.array());
+				addressRecord = ConstructorUtils.invokeConstructor(clazz, hash);
 			} catch (IllegalAccessException | InstantiationException
 				| InvocationTargetException | NoSuchMethodException ex) {
 				Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
