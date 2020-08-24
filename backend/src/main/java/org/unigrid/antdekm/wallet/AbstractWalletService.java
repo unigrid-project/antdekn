@@ -20,6 +20,7 @@ import com.github.arteam.simplejsonrpc.client.JsonRpcClient;
 import com.github.arteam.simplejsonrpc.client.Transport;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.validation.constraints.NotNull;
@@ -35,6 +36,7 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import org.unigrid.antdekm.wallet.model.Response;
 import org.unigrid.antdekm.wallet.model.RpcDetails;
 
 public class AbstractWalletService<T>
@@ -48,7 +50,9 @@ public class AbstractWalletService<T>
 		this.serviceType = serviceType;
 	}
 
-	public T call(final RpcDetails rpcDetails) throws AuthenticationException {
+	public Response<T> call(final RpcDetails rpcDetails) throws AuthenticationException {
+		final AtomicInteger statusCode = new AtomicInteger();
+
 		if (cachedRpcDetailsHashCode != rpcDetails.hashCode()) {
 			try {
 				if (httpClient != null) {
@@ -88,7 +92,7 @@ public class AbstractWalletService<T>
 						post.addHeader(header);
 
 						try (CloseableHttpResponse httpResponse = httpClient.execute(post)) {
-							String statusCode = httpResponse.getStatusLine().getReasonPhrase();
+							statusCode.set(httpResponse.getStatusLine().getStatusCode());
 
 							return EntityUtils.toString(httpResponse.getEntity(),
 								StandardCharsets.UTF_8
@@ -103,6 +107,6 @@ public class AbstractWalletService<T>
 			});
 		}
 
-		return client.onDemand(serviceType);
+		return new Response<>(client.onDemand(serviceType), statusCode);
 	}
 }

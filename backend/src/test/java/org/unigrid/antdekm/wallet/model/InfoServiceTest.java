@@ -19,23 +19,28 @@ package org.unigrid.antdekm.wallet.model;
 import javax.ejb.EJB;
 import org.apache.http.auth.AuthenticationException;
 import org.jboss.arquillian.junit.Arquillian;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.unigrid.antdekm.wallet.InfoService;
+import org.unigrid.antdekn.test.BaseTest;
 import org.unigrid.antdekn.test.Daemon;
 import org.unigrid.antdekn.test.TestArchive;
 
 @RunWith(Arquillian.class)
-public class InfoServiceTest
+public class InfoServiceTest extends BaseTest
 {
 	@EJB
 	private InfoService infoService;
 
 	@Test
 	public void canFetch() throws AuthenticationException, InterruptedException {
-		// TODO: Support other daemons than neutron
-		final Daemon daemon = TestArchive.DAEMONS.get(0);
-		assertNotNull(infoService.call(daemon.getRpcDetails()).getInfo());
+		for (Daemon daemon : TestArchive.DAEMONS) {
+			System.out.println(infoService.call(daemon.getRpcDetails()).getEntity().getInfo());
+			assertNotNull(infoService.call(daemon.getRpcDetails()).getEntity().getInfo());
+		}
+
+		assertFalse(rpcDetailsService.get().isEmpty());
 	}
 }
