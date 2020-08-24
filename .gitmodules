@@ -1,3 +1,6 @@
 [submodule "backend/src/test/resources/daemons/neutron/repository"]
 	path = backend/src/test/resources/daemons/neutron/repository
 	url = https://github.com/neutroncoin/neutron.git
+[submodule "backend/src/test/resources/daemons/unigrid/repository"]
+	path = backend/src/test/resources/daemons/unigrid/repository
+	url = https://github.com/unigrid-project/UNIGRID.git
