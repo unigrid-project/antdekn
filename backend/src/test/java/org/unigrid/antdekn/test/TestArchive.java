@@ -104,6 +104,7 @@ public final class TestArchive
 			.addClass(FakerProducer.class)
 			.addClass(BlockService.class)
 			.addClass(InfoService.class)
+			.addClass(NetService.class)
 			.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
 			.addAsLibraries(files);
 	}
