@@ -43,6 +43,7 @@ import org.unigrid.antdekm.DaemonPollingService;
 import org.unigrid.antdekm.storage.Database;
 import org.unigrid.antdekm.wallet.BlockService;
 import org.unigrid.antdekm.wallet.InfoService;
+import org.unigrid.antdekm.wallet.NetService;
 import org.unigrid.antdekm.wallet.model.RpcDetails;
 
 @ArquillianSuiteDeployment
