@@ -44,6 +44,7 @@ import org.unigrid.antdekm.storage.Database;
 import org.unigrid.antdekm.wallet.BlockService;
 import org.unigrid.antdekm.wallet.InfoService;
 import org.unigrid.antdekm.wallet.NetService;
+import org.unigrid.antdekm.wallet.RpcDetailsService;
 import org.unigrid.antdekm.wallet.model.RpcDetails;
 
 @ArquillianSuiteDeployment
@@ -51,7 +52,8 @@ import org.unigrid.antdekm.wallet.model.RpcDetails;
 public final class TestArchive
 {
 	public static final List<Daemon> DAEMONS = Arrays.asList(
-		new Daemon("neutron", "neutron/neutrond-v4.1.1-linux-x86_64.AppImage", "neutron.conf", new RpcDetails(32000))
+		new Daemon("neutron", "neutron/neutrond-v4.1.1-linux-x86_64.AppImage", "neutron.conf", new RpcDetails(32000)),
+		new Daemon("unigrid", "unigrid/unigridd", "unigrid.conf", new RpcDetails(51993))
 	);
 
 	private static final String CONFIG_RPCUSER = "rpcuser=";
@@ -100,10 +102,10 @@ public final class TestArchive
 		}
 
 		return ShrinkWrap.create(WebArchive.class)
+			.addClass(BlockService.class)
 			.addClass(DaemonPollingService.class)
 			.addClass(Database.class)
 			.addClass(FakerProducer.class)
-			.addClass(BlockService.class)
 			.addClass(InfoService.class)
 			.addClass(NetService.class)
 			.addClass(RpcDetailsService.class)
