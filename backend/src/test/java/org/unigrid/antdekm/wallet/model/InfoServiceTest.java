@@ -37,7 +37,6 @@ public class InfoServiceTest extends BaseTest
 	@Test
 	public void canFetch() throws AuthenticationException, InterruptedException {
 		for (Daemon daemon : TestArchive.DAEMONS) {
-			System.out.println(infoService.call(daemon.getRpcDetails()).getEntity().getInfo());
 			assertNotNull(infoService.call(daemon.getRpcDetails()).getEntity().getInfo());
 		}
 
