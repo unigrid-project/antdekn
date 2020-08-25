@@ -24,13 +24,25 @@ package org.unigrid.antdekm.wallet.model;
 
 import java.io.Serializable;
 import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Data;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Data
+@RequiredArgsConstructor
 public class RpcDetails implements Serializable
 {
 	private String userName;
 	private String password;
 	private InetAddress ipAddress;
 	private final int port;
+
+	@NonNull
+	private List<String> unsupportedCommands;
+
+	public RpcDetails(int port) {
+		this(port, new ArrayList<>());
+	}
 }

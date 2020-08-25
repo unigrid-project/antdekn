@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import lombok.AccessLevel;
@@ -59,7 +60,11 @@ public final class TestArchive
 {
 	public static final List<Daemon> DAEMONS = Arrays.asList(
 		new Daemon("neutron", "neutron/neutrond-v4.1.1-linux-x86_64.AppImage", "neutron.conf", new RpcDetails(32000)),
-		new Daemon("unigrid", "unigrid/unigridd", "unigrid.conf", new RpcDetails(51993))
+		new Daemon("unigrid", "unigrid/unigridd", "unigrid.conf", new RpcDetails(
+			51993, new ArrayList<>(Arrays.asList(
+				BlockService.Service.COMMAND_GETBLOCKBYNUMBER
+			))
+		))
 	);
 
 	private static final String CONFIG_RPCUSER = "rpcuser=";

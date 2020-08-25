@@ -48,12 +48,15 @@ public class BlockServiceTest extends BaseTest
 	private TransactionService transactionService;
 
 	@Test
-	public void canFetchBlockByNumber() throws AuthenticationException {
+	public void canFetchBlockByNumberIfSupported() throws AuthenticationException {
 		for (Daemon daemon : TestArchive.DAEMONS) {
-			final Block b = blockService.call(daemon.getRpcDetails()).getEntity().getBlockByNumber(1333);
-			final VerboseBlock vb = blockService.call(daemon.getRpcDetails()).getEntity().getBlockByNumber(1333, true);
+			final RpcDetails rpcDetails = daemon.getRpcDetails();
 
-			assertEquals(b.getHash(), vb.getHash());
+			if (!rpcDetails.getUnsupportedCommands().contains(BlockService.Service.COMMAND_GETBLOCKBYNUMBER)) {
+				final Block b = blockService.call(rpcDetails).getEntity().getBlockByNumber(1333);
+				final VerboseBlock vb = blockService.call(rpcDetails).getEntity().getBlockByNumber(1333, true);
+				assertEquals(b.getHash(), vb.getHash());
+			}
 		}
 
 		assertFalse(rpcDetailsService.get().isEmpty());
