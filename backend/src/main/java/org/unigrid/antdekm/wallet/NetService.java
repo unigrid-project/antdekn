@@ -33,7 +33,9 @@ public class NetService extends AbstractWalletService<NetService.Service>
 	@JsonRpcParams(ParamsType.ARRAY)
 	public interface Service
 	{
-		@JsonRpcMethod("getconnectioncount")
+		String COMMAND_GETCONNECTIONCOUNT = "getconnectioncount";
+
+		@JsonRpcMethod(COMMAND_GETCONNECTIONCOUNT)
 		int getConnectionCount();
 	}
 }

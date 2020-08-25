@@ -34,7 +34,9 @@ public class InfoService extends AbstractWalletService<InfoService.Service>
 	@JsonRpcParams(ParamsType.ARRAY)
 	public interface Service
 	{
-		@JsonRpcMethod("getinfo")
+		String COMMAND_GETINFO = "getblock";
+
+		@JsonRpcMethod(COMMAND_GETINFO)
 		Info getInfo();
 	}
 }

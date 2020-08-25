@@ -36,16 +36,20 @@ public class BlockService extends AbstractWalletService<BlockService.Service>
 	@JsonRpcParams(ParamsType.ARRAY)
 	public interface Service
 	{
-		@JsonRpcMethod("getblock")
+		String COMMAND_GETBLOCK = "getblock";
+		String COMMAND_GETBLOCKBYNUMBER = "getblockbynumber";
+		String COMMAND_GETBLOCKCOUNT = "getblockcount";
+
+		@JsonRpcMethod(COMMAND_GETBLOCK)
 		VerboseBlock getBlock(@JsonRpcParam("blockhash") String blockHash);
 
-		@JsonRpcMethod("getblockbynumber")
+		@JsonRpcMethod(COMMAND_GETBLOCKBYNUMBER)
 		VerboseBlock getBlockByNumber(@JsonRpcParam("number") int number, @JsonRpcParam("txinfo") boolean txInfo);
 
-		@JsonRpcMethod("getblockbynumber")
+		@JsonRpcMethod(COMMAND_GETBLOCKBYNUMBER)
 		Block getBlockByNumber(@JsonRpcParam("number") int number);
 
-		@JsonRpcMethod("getblockcount")
+		@JsonRpcMethod(COMMAND_GETBLOCKCOUNT)
 		int getBlockCount();
 	}
 }
