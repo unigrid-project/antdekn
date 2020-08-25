@@ -106,6 +106,7 @@ public final class TestArchive
 			.addClass(BlockService.class)
 			.addClass(InfoService.class)
 			.addClass(NetService.class)
+			.addClass(RpcDetailsService.class)
 			.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
 			.addAsLibraries(files);
 	}

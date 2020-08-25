@@ -16,18 +16,49 @@
 
 package org.unigrid.antdekn.test;
 
-import com.github.javafaker.Faker;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import javax.ejb.EJB;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.apache.http.auth.AuthenticationException;
 import org.junit.Before;
+import org.unigrid.antdekm.wallet.NetService;
+import org.unigrid.antdekm.wallet.RpcDetailsService;
+import org.unigrid.antdekm.wallet.model.Response;
+import org.unigrid.antdekm.wallet.model.RpcDetails;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BaseTest
 {
-	protected Faker faker;
+	private static final int DAEMON_RETRY = 1;
+
+	@EJB
+	protected NetService netService;
+
+	@EJB
+	protected RpcDetailsService rpcDetailsService;
+
+	private void waitForDaemonToBeRunning(Daemon daemon) throws AuthenticationException, InterruptedException {
+		Response<NetService.Service> response;
+
+		do {
+			response = netService.call(daemon.getRpcDetails());
+			response.getEntity().getConnectionCount();
+			TimeUnit.SECONDS.sleep(DAEMON_RETRY);
+		} while (response.getStatusCode().intValue() != 200);
+	}
 
 	@Before
-	public void before() {
-		faker = new FakerProducer().getFaker();
+	public void before() throws AuthenticationException, InterruptedException {
+		for (Daemon daemon : TestArchive.DAEMONS) {
+			final List<RpcDetails> rpcDetails = rpcDetailsService.get(daemon.getName());
+
+			if (rpcDetails.equals(RpcDetailsService.EMPTY)) {
+				rpcDetailsService.add(daemon.getName(), daemon.getRpcDetails());
+			}
+
+			waitForDaemonToBeRunning(daemon);
+		}
 	}
 }

@@ -26,19 +26,31 @@ import org.unigrid.antdekm.wallet.model.RpcDetails;
 @Singleton
 public class RpcDetailsService
 {
+	public static final List<RpcDetails> EMPTY = new ArrayList<>();
 	private final Map<String, List<RpcDetails>> entries = new HashMap<>();
 
-	public void add(String daemon, RpcDetails rpcDetails) {
-		List<RpcDetails> daemons = entries.get(daemon);
+	public void add(String daemonName, RpcDetails rpcDetails) {
+		List<RpcDetails> daemons = entries.get(daemonName);
 
 		if (daemons == null) {
 			daemons = new ArrayList<>();
 		}
 
 		daemons.add(rpcDetails);
+		entries.put(daemonName, daemons);
 	}
 
-	public List<RpcDetails> get(String daemon) {
-		return new ArrayList<>(entries.get(daemon));
+	/* Return copies to preserve thread safety */
+
+	public List<RpcDetails> get(String daemonName) {
+		if (entries.containsKey(daemonName)) {
+			return new ArrayList<>(entries.get(daemonName));
+		}
+
+		return EMPTY;
+	}
+
+	public Map<String, List<RpcDetails>> get() {
+		return new HashMap<>(entries);
 	}
 }
